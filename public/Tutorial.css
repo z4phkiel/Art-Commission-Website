@@ -1,0 +1,237 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+body{
+    max-height: 100vh;
+    background-color: #e1c5d0;
+}
+/*navbar css*/
+.index-parent-class{
+    
+    width: 100%;
+    max-height: 7vh;
+    background-image: url(image/tutorialnavbackground.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    border-bottom: 2px solid black;
+
+    
+}
+.index-parent-class::after{
+    content: "";
+    display: block;
+    clear: both;
+}
+
+
+
+.index-parent-right-class{
+    width: 45%;
+    min-height: 7vh;
+    
+    float: right;
+    text-align: center;
+    padding: 25px;
+    margin-right: 25px;
+}
+.index-parent-right-class a{
+    text-decoration: none;
+    text-shadow: 2px 2px 3px black;
+    color: #e1c5d0;
+    margin-left: 25px;
+    margin-right: 25px;
+}
+
+a:hover{
+    cursor: pointer;
+}
+
+.index-parent-left-class{
+    width: 45%;
+    min-height: 7vh;
+
+    float: left;
+    text-align: center;
+    padding: 25px;
+    margin-left: 90px;
+    
+    
+}
+.index-parent-left-class img{
+    border-radius: 25px;
+    width: 45px;
+    height: 15px;
+    margin-right: 25px;
+}
+.index-parent-left-class a{
+    margin-left: 25px;
+    margin-right: 25px;
+    text-decoration: none;
+    text-shadow: 2px 2px 3px black;
+    color: #e1c5d0;
+
+    
+}
+
+
+
+a:hover{
+    color: black;
+}
+
+/*navbar css*/
+
+
+
+.popup {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    
+    
+}
+
+
+.circle {
+  width: 10px;
+  height: 10px;
+  background-color: blue;
+  border-radius: 50%;
+  animation: bouncing 2s ease-in-out infinite;
+  
+}
+
+.delay-0 {
+  animation-delay: 0s;
+}
+
+.delay-1 {
+  animation-delay: 0.2s;
+}
+
+.delay-2 {
+  animation-delay: 0.5s;
+}
+
+.delay-3 {
+  animation-delay: 0.7s;
+}
+
+.delay-4 {
+  animation-delay: 1s;
+}
+
+@keyframes bouncing {
+  0% {
+    transform: translateY(0);
+  }
+
+  30% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+
+  70% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+
+
+
+
+
+.Tutorial-parent-class{
+    width: 100%;
+    max-height: 90vh;
+    min-height: 90vh;
+    
+}
+
+
+.Tutorial-container-class{
+    width: 80%;
+    min-height: 80vh;
+    max-height: 80vh;
+    background-image: url(image/TutorialContainerBackground.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin: auto;
+    margin-top: 3vh;
+    border-radius: 20px;
+}
+
+
+.Tutorial-container-class::after{
+    content: "";
+    display: block;
+    clear: both;
+}
+.Tutorial-left-class{
+    width: 50%;
+    min-height: 80vh;
+
+    float: left;
+}
+
+.Tutorial-right-class{
+    width: 50%;
+    min-height: 80vh;
+ 
+    float: right;
+    display: grid;
+    place-items: center;
+}
+
+.Download-Icon{
+    width: 90%;
+    min-height: 350px;
+
+    margin-bottom: 150px;
+    display: grid;
+    place-items: center;
+}
+i{
+    font-size: 200px;
+    text-shadow: 2px 2px 5px #e1c5d0;
+}
+.Download-Icon a{
+    font-size: 34px;
+    text-decoration: none;
+    color: #b48ab1;
+    
+
+    margin-top: 10px;
+    border-radius: 10px;
+}
+
+.Download-Icon a:hover{
+    transform: scale(.9);
+    color: white;
+}
+
+
+p{
+    text-align: center;
+    font-size: 25px;
+    margin-top: 10px;
+    color: #767c92;
+    text-shadow: 2px 2px 1px black;
+}

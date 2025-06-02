@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artworks</title>
+    <link rel="icon" href="image/adashino.jpg">
+    <link rel="stylesheet" href="artworks.css">
+    
+</head>
+<body>
+    <div id="loader" class="popup">
+      <div class="circle delay-0"></div>
+      <div class="circle delay-1"></div>
+      <div class="circle delay-2"></div>
+      <div class="circle delay-3"></div>
+      <div class="circle delay-4"></div>
+    </div>
+
+    <div class="index-parent-class">
+        
+        <div class="index-parent-right-class">
+            <a href="/Request">REQUEST</a>
+            <a id="adminBtn" style="display: none;">ADMIN PANEL</a>
+            <a id="logoutbtn">LOG OUT</a>
+        </div>
+
+        <div class="index-parent-left-class">
+            
+            <a href="/Home">HOME</a>
+            <a href="/About">ABOUT</a>
+            <a href="/Artworks">ART WORK/S</a>
+            <a href="/Tutorial">TUTORIAL</a>
+        </div>
+    </div>
+
+    <div class="artworks-parent-class">
+    
+    <div class="gallery">
+      <img src="imageportraits/portrait1.jpg" alt="Image 1">
+      <img src="imageportraits/portrait2.jpg" alt="Image 2">
+      <img src="imageportraits/portrait3.jpg" alt="Image 3">
+      <img src="imageportraits/portrait4.jpg" alt="Image 4">
+      <img src="imageportraits/portrait5.jpg" alt="Image 5">
+      <img src="imageportraits/portrait6.jpg" alt="Image 4">
+      <img src="imageportraits/portrait7.jpg" alt="Image 1">
+      <img src="imageportraits/portrait8.jpg" alt="Image 2">
+      <img src="imageportraits/portrait9.jpg" alt="Image 3">
+      <img src="imageportraits/portrait10.jpg" alt="Image 4">
+      <img src="imageportraits/portrait11.jpg" alt="Image 5">
+      <img src="imageportraits/portrait12.jpg" alt="Image 4">
+
+
+  </div>
+
+  <div class="overlay" id="overlay">
+    <span class="close-btn" id="closeBtn">&times;</span>
+    <img id="zoomedImage" src="" alt="Zoomed Image">
+  </div>
+
+  <script type="module" defer>
+    import { auth, database } from "./connection.js";
+    import { getDoc, doc } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
+    import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-auth.js";
+
+
+        
+        onAuthStateChanged(auth, async (user) => {
+
+            if (!user) {
+                console.log("User is not logged in");
+                window.location.href = "login.html";
+                return;
+            }
+
+            const userDoc = await getDoc(doc(database, "User_roles" , user.email));
+            let data;
+
+            
+
+            if (userDoc.exists()) {
+                console.log("User data found");
+                data = userDoc.data();
+            }
+
+            if (data.role == "client") {
+                console.log(`${user.email} successfully logged in`);
+            }
+            else if (data.role == "admin") {
+
+                console.log(`Admin user: ${user.email}`)
+                const toAdminPanel = document.getElementById("adminBtn");
+                toAdminPanel.style.display = "inline-block";
+                toAdminPanel.addEventListener("click", (e) => {
+                    window.location.href = "admintable.html";
+                })
+
+            }
+
+            else {
+                console.warn("User not found");
+
+                window.location.href = "login.html";
+            }
+        });
+        const loader = document.getElementById("loader");
+        
+
+        const logout_btn = document.getElementById("logoutbtn");
+        
+
+        logout_btn.addEventListener("click" ,() => {
+            loader.style.display = "flex";
+            signOut(auth).then(() => {
+                
+               
+                setTimeout(() => {
+                  window.location.href = "login.html";
+                },6000)
+                
+            })
+            .catch((error) => {
+                alert(`Sign out error ${error.message}`);
+            })
+        });
+        
+
+    const images = document.querySelectorAll('.gallery img');
+    const overlay = document.getElementById('overlay');
+    const zoomedImage = document.getElementById('zoomedImage');
+    const closeBtn = document.getElementById('closeBtn');
+
+    images.forEach(img => {
+      img.addEventListener('click', () => {
+        zoomedImage.src = img.src;
+        overlay.style.display = 'flex';
+      });
+    });
+
+    closeBtn.addEventListener('click', () => {
+      overlay.style.display = 'none';
+      zoomedImage.src = '';
+    });
+
+    
+    overlay.addEventListener('click', (e) => {
+      if (e.target !== zoomedImage && e.target !== closeBtn) {
+        overlay.style.display = 'none';
+        zoomedImage.src = '';
+      }
+    });
+    window.addEventListener("pageshow", function (event) {
+    
+    if (event.persisted) {
+        window.location.reload(); 
+        }
+    });
+    
+  </script>
+    </div>
+  </div>
+</div>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,322 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body{
+    width: 100%;
+    max-height: 100vh;
+    
+}
+/*navbar css*/
+.index-parent-class{
+    
+    width: 100%;
+    max-height: 7vh;
+    background-image: url(image/requestnavbackground.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    border-bottom: 2px solid black;
+    box-shadow: 0px 10px 15px black;
+    
+}
+.index-parent-class::after{
+    content: "";
+    display: block;
+    clear: both;
+}
+
+
+
+.index-parent-right-class{
+    width: 45%;
+    max-height: 7vh;
+    
+    float: right;
+    text-align: center;
+    padding: 25px;
+    margin-right: 25px;
+}
+.index-parent-right-class a{
+    text-decoration: none;
+    text-shadow: 2px 2px 3px black;
+    color: #efe1de;
+    margin-left: 25px;
+    margin-right: 25px;
+    
+}
+a:hover{
+    cursor: pointer;
+}
+
+.index-parent-left-class{
+    width: 45%;
+    max-height: 7vh;
+
+    float: left;
+    text-align: center;
+    padding: 25px;
+    margin-left: 90px;
+    
+    
+}
+.index-parent-left-class img{
+    border-radius: 25px;
+    width: 45px;
+    height: 15px;
+    margin-right: 25px;
+}
+.index-parent-left-class a{
+    margin-left: 25px;
+    margin-right: 25px;
+    text-decoration: none;
+    text-shadow: 2px 2px 3px black;
+    color: #efe1de;
+    
+    
+}
+
+
+a:hover{
+    color: black;
+}
+
+/*navbar css*/
+
+
+.popup {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    
+    
+}
+
+
+.circle {
+  width: 10px;
+  height: 10px;
+  background-color: blue;
+  border-radius: 50%;
+  animation: bouncing 2s ease-in-out infinite;
+  
+}
+
+.delay-0 {
+  animation-delay: 0s;
+}
+
+.delay-1 {
+  animation-delay: 0.2s;
+}
+
+.delay-2 {
+  animation-delay: 0.5s;
+}
+
+.delay-3 {
+  animation-delay: 0.7s;
+}
+
+.delay-4 {
+  animation-delay: 1s;
+}
+
+@keyframes bouncing {
+  0% {
+    transform: translateY(0);
+  }
+
+  30% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+
+  70% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+
+
+
+
+
+.request-parent-class{
+    width: 100%;
+    max-height: 93vh;
+    background-image: url(image/background\ request.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.request-parent-class::after{
+    display: block;
+    content: "";
+    clear: both;
+}
+
+
+
+
+
+
+
+
+
+
+
+.request-left-parent-class{
+    width: 40%;
+    height: 93vh;
+    
+    opacity: 90%;
+    float: left;
+    margin-left: 55px;
+}
+
+
+#requestForm{
+    text-align: center;
+    margin-top: 200px;
+}
+#requestForm label{
+    color: hsla(58, 100%, 50%, 0.700);
+    text-shadow: 3px 3px 2px hsl(34, 84%, 20%);
+    font-size: 30px;
+}
+
+
+#submitbtn{
+    cursor: pointer;
+    width: 100px;
+    height: 35px;
+    border-radius: 15px;
+    margin-top: 15px;
+    background-color: hsl(39, 73%, 49%);
+}
+
+
+
+#submitbtn:hover{
+    transform: scale(1.1);
+    background-color: rgb(235, 156, 9);
+    color: white;
+}
+
+
+
+#requestDetails{
+
+    width: 80%;
+    height: 90px;
+    outline: none;
+    resize: none;
+
+    font-size: 15px;
+    text-align: center;
+    opacity: 70%;
+    color: black;
+    border-radius: 25px 5px 25px 5px;
+    line-height: 90px;
+}
+::-webkit-scrollbar{
+    display: none;
+}
+
+
+
+
+
+
+
+.request-right-parent-class{
+    width: 40%;
+    max-height: 80vh;
+    float: right;
+    margin-right: 55px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin-top: 50px;
+}
+
+
+
+
+
+.request-right-parent-class #reqTable{
+    border: 1px solid black;
+}
+
+
+.request-right-parent-class #reqTable #reqDate{
+    border: 1px solid black;
+    width: 150px;
+}
+.request-right-parent-class #reqTable #reqMessage{
+    border: 1px solid black;
+    width: 450px;
+}
+
+
+.request-right-parent-class #reqTable #reqTitle {
+    margin: auto;
+
+}
+
+#reqTable #reqTitle{
+    color: hsl(30, 100%, 64%);
+    text-align: center;
+    font-size: 30px;
+}
+
+#reqTable{
+    width: 98%;
+    max-height: 500px;
+    
+    border-collapse: collapse;
+    
+
+}
+#reqTable td{
+    font-size: 20px;  
+    color: hsl(30, 100%, 64%);
+    text-shadow: 1px 1px black;
+}
+#reqTable tr:nth-of-type(even){
+    background-color: rgba(251, 207, 177, 0.500);
+}
+#reqTable tr:nth-of-type(odd){
+    background-color: hsla(17, 87%, 54%, 0.500);
+}
+#reqTable #reqTitle{
+    position: sticky;
+    top: 0;
+    background-color: hsl(17, 87%, 54%);
+}
+
+
+#reqBody{
+    text-align: left;
+}
+
+#reqDate{
+    text-align: center;
+}
+

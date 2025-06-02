@@ -1,0 +1,64 @@
+body{
+    margin: 0;
+    padding: 0;
+    background-image: url(image/sample_login_bg.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+#recoveryform{
+    color: white;
+    
+}
+
+#recoveryform h1{
+    color: black;
+    text-align: center;
+}
+a{
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    text-align: center;
+}
+
+a:hover{
+    color: rgb(85, 85, 85);
+}
+
+.misc .socials {
+  position: fixed;
+  bottom: 20px;     
+  left: 20px;       
+  z-index: 999;     
+  font-size: 1.5rem;
+  color: white;     
+  display: flex;
+  gap: 10px;
+}
+
+.misc .socials i:hover {
+  color: #ccc;      
+  cursor: pointer;
+}
+
+.misc .aboutpage {
+  position: fixed;
+  top: 20px;     
+  right: 20px;       
+  z-index: 999;     
+  font-size: 1.5rem;
+  color: white;     
+  display: flex;
+  gap: 10px;
+}
+.misc .aboutpage i:hover {
+  color: #ccc;      
+  cursor: pointer;
+}

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Page</title>
+    <link rel="stylesheet" href="about.css">
+    <link rel="icon" href="image/adashino.jpg">
+    <script src="https://kit.fontawesome.com/004f38ffae.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div id="loader" class="popup">
+      <div class="circle delay-0"></div>
+      <div class="circle delay-1"></div>
+      <div class="circle delay-2"></div>
+      <div class="circle delay-3"></div>
+      <div class="circle delay-4"></div>
+    </div>
+    
+    <div class="index-parent-class">
+        
+        <div class="index-parent-right-class">
+            <a href="/Request">REQUEST</a>
+            <a id="adminBtn" style="display: none;">ADMIN PANEL</a>
+            <a id="logoutbtn">LOG OUT</a>
+        </div>
+
+        <div class="index-parent-left-class">
+            
+            <a href="/Home">HOME</a>
+            <a href="/About">ABOUT</a>
+            <a href="/Artworks">ART WORK/S</a>
+            <a href="/Tutorial">TUTORIAL</a>
+        </div>
+    </div>
+
+    <div class="all-about-class">
+        <div class="all-about-container-class">
+            <div class="all-about-top-class">
+                <h1>About the Artist</h1>
+                <p>Hi! I'm an artist from Cavite, Philippines, also known as Adashino. I began my journey in fashion drawing in March 2024, 
+                    and since then, I've been passionate about bringing ideas to life through art. I specialize in portrait art using graphite and charcoal,
+                     focusing on capturing depth, emotion, and detail in every piece. Art is not just my passion—it's my way of expression. If you like to commission just
+                    message me in the following socials below.</p>
+            </div>
+            <div class="all-about-bottom-class">
+                <div class="all-about-bottom-left-class">
+                    <div class="all-about-bottom-left-class-TOP">
+                        <a href="https://www.facebook.com/ronnell.secretodayson"><i class="fa-brands fa-facebook"></i></a>
+                    </div>
+                    <div class="all-about-bottom-left-class-BOTTOM">
+                        <a href="https://www.facebook.com/ronnell.secretodayson">FACEBOOK</a>
+                    </div>
+                </div>
+                <div class="all-about-bottom-middle-class">
+                    <div class="all-about-bottom-middle-class-TOP">
+                        <a href="https://www.tiktok.com/@adashinobeniosart"><i class="fa-brands fa-tiktok"></i></a>
+                    </div>
+                    <div class="all-about-bottom-middle-class-BOTTOM">
+                        <a href="https://www.tiktok.com/@adashinobeniosart">TIKTOK</a>
+                    </div>
+                </div>
+                <div class="all-about-bottom-right-class">
+                    <div class="all-about-bottom-right-class-TOP">
+                        <a href="https://www.instagram.com/pres_1025/"><i class="fa-brands fa-instagram"></i></a>
+                    </div>
+                    <div class="all-about-bottom-right-class-BOTTOM">
+                        
+                        <a href="https://www.instagram.com/pres_1025/">INSTAGRAM</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+        
+    <script type="module" defer>
+        import { auth, database } from "./connection.js";
+        import { getDoc, doc } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
+        import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-auth.js";
+
+
+        
+        onAuthStateChanged(auth, async (user) => {
+
+            if (!user) {
+                console.log("User is not logged in");
+                window.location.href = "login.html";
+                return;
+            }
+
+            const userDoc = await getDoc(doc(database, "User_roles" , user.email));
+            let data;
+
+            
+
+            if (userDoc.exists()) {
+                console.log("User data found");
+                data = userDoc.data();
+            }
+
+            if (data.role == "client") {
+                console.log(`${user.email} successfully logged in`);
+            }
+            else if (data.role == "admin") {
+
+                console.log(`Admin user: ${user.email}`)
+                const toAdminPanel = document.getElementById("adminBtn");
+                toAdminPanel.style.display = "inline-block";
+                toAdminPanel.addEventListener("click", (e) => {
+                    window.location.href = "admintable.html";
+                })
+
+            }
+
+            else {
+                console.warn("User not found");
+
+                window.location.href = "login.html";
+            }
+        });
+        const loader = document.getElementById("loader");
+        
+
+        const logout_btn = document.getElementById("logoutbtn");
+        
+
+        logout_btn.addEventListener("click" ,() => {
+            loader.style.display = "flex";
+            signOut(auth).then(() => {
+                
+               
+                setTimeout(() => {
+                  window.location.href = "login.html";
+                },6000)
+                
+            })
+            .catch((error) => {
+                alert(`Sign out error ${error.message}`);
+            })
+        });
+        window.addEventListener("pageshow", function (event) {
+    
+        if (event.persisted) {
+        window.location.reload(); 
+            }
+        });
+    </script>
+</body>
+</html>

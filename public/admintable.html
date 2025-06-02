@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Admin</title>
+    <link rel="stylesheet" href="admintable.css">
+    <link rel="icon" href="image/adashino.jpg">
+</head>
+<body>
+    <div class="admintable-container">
+        <button id="toIndex"> HOME PAGE</button>
+    <table id="requestTable">
+        <thead>
+            <tr>
+                <td id="reqTitle">REQUEST</td>
+                <td id="reqTitle">DATE</td>
+                <td id="reqTitle">ACTION</td>
+            </tr>
+    </thead>
+
+    <tbody id="reqbody">
+
+    </tbody>
+    </table>
+    </div>
+    
+    
+</body>
+
+<script type="module">
+
+    import { auth, database } from "./connection.js";
+    import { getFirestore, collection, getDocs, getDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
+    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-auth.js";
+
+
+    const toIndex = document.getElementById("toIndex").addEventListener("click" , (e) => {
+        window.location.href = "/Home";
+    });
+    
+
+    onAuthStateChanged (auth, async (user) => {
+
+        if (!user) {
+                console.log("User is not logged in");
+                window.location.href = "login.html";
+                return;
+            }
+
+        if (user) {
+            const userDoc = await getDoc(doc(database, "User_roles", user.email));
+            let data;
+            
+            if (userDoc.exists()) {
+                console.log("User data found");
+                data = userDoc.data();
+            }
+            
+            if (data.role !== "admin" ) {
+                window.location.href = "/Home";
+            } else {
+                console.log("Authentication successful");
+                console.log(`${user.email} has access to the admin dashboard`);
+            }
+        }
+    });
+
+
+    console.log("THIS PAGE IS FOR ADMIN ONLY");
+    const colRef = collection(database, "Requests");
+
+
+    console.log("Fetching Data....");
+    getDocs(colRef).then((snapshot) => {
+        const reqTable = document.getElementById("reqbody");
+
+        
+         snapshot.docs.forEach((docSnap) => {
+            const data = docSnap.data();
+            const timestamp = data.timestamp ? new Date(data.timestamp.seconds * 1000).toLocaleString() : "No Timestamp";
+
+            
+
+            const row = `<tr id="row-${docSnap.id}">
+                            <td> Message: ${data.message || "No Request"}</td>
+                            <td> Date: ${timestamp || "No Date"}</td>
+                            <td id="deleteStyle"><a onclick="deleteRequest('${docSnap.id}')">Delete</a></td>
+                        </tr>`;
+
+            reqTable.innerHTML += row;
+            console.log("Data fetched from firestore/firebase");
+        });
+    });
+
+    
+    window.deleteRequest = async function (requestId) {
+        if (confirm("Are you sure you want to delete this request?")) {
+            try {
+                await deleteDoc(doc(database, "Requests", requestId));
+                const row = document.getElementById(`row-${requestId}`);
+                if (row) row.remove();
+                console.log(`Request with ID ${requestId} deleted successfully.`);
+            } catch (error) {
+                console.error("Error deleting request: ", error);
+            }
+        }
+    };
+    window.addEventListener("pageshow", function (event) {
+    
+    if (event.persisted) {
+        window.location.reload(); 
+        }
+    });
+    
+</script>
+</html>

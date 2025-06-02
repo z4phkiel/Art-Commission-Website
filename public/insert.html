@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="connection.js" type="module" defer></script>
+    <link rel="stylesheet" href="insert.css">
+    <link rel="icon" href="image/1322553.jpeg">
+    
+</head>
+<body>
+    <div id="loader" class="popup">
+      <div class="circle delay-0"></div>
+      <div class="circle delay-1"></div>
+      <div class="circle delay-2"></div>
+      <div class="circle delay-3"></div>
+      <div class="circle delay-4"></div>
+    </div>
+    <div class="index-parent-class">
+        
+        <div class="index-parent-right-class">
+            <a href="/Request">REQUEST</a>
+            <a id="adminBtn" style="display: none;">ADMIN PANEL</a>
+            <a id="logoutbtn">LOG OUT</a>
+        </div>
+
+        <div class="index-parent-left-class">
+            
+            <a href="/Home">HOME</a>
+            <a href="/About">ABOUT</a>
+            <a href="/Artworks">ART WORK/S</a>
+            <a href="/Tutorial">TUTORIAL</a>
+        </div>
+    </div>
+
+    <div class="request-parent-class">
+        <div class="request-left-parent-class">
+            
+            <form id="requestForm">
+                <label for="requestDetails" id="reqLabel">REQUEST</label><br>
+                <br>
+                <br>
+                <textarea id="requestDetails" name="requestDetails" maxlength="30" required placeholder="Send request to artist... Example, Shikamaru from Naruto"></textarea>
+                <br>
+                <button type="submit" id="submitbtn">Submit</button>
+            </form>
+            <div id="error" style="color: red;"></div>
+        </div>
+
+        <div class="request-right-parent-class">
+                <table id="reqTable">
+                    <th>
+                        <tr>
+                            <td id="reqTitle">MESSAGE</td>
+                            <td id="reqTitle">DATE</td>
+                        </tr>
+                        
+                    </th>
+                    
+                    <tbody id="reqbody">
+                        
+                    </tbody>
+                </table>
+        </div>
+    </div>
+
+
+
+
+<script type="module">
+    
+import { auth, database } from "./connection.js";
+import { collection, addDoc, getDoc, doc, getDocs } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
+import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-auth.js";
+
+
+               
+        onAuthStateChanged(auth, async (user) => {
+
+            if (!user) {
+                console.log("User is not logged in");
+                window.location.href = "login.html";
+                return;
+            }
+
+            const userDoc = await getDoc(doc(database, "User_roles" , user.email));
+            let data;
+
+            
+
+            if (userDoc.exists()) {
+                console.log("User data found");
+                data = userDoc.data();
+            }
+
+            if (data.role == "client") {
+                console.log(`${user.email} successfully logged in`);
+            }
+            else if (data.role == "admin") {
+
+                console.log(`Admin user: ${user.email}`)
+                const toAdminPanel = document.getElementById("adminBtn");
+                toAdminPanel.style.display = "inline-block";
+                toAdminPanel.addEventListener("click", (e) => {
+                    window.location.href = "admintable.html";
+                })
+
+            }
+
+            else {
+                console.warn("User not found");
+
+                window.location.href = "login.html";
+            }
+        });
+        const loader = document.getElementById("loader");
+        
+
+        const logout_btn = document.getElementById("logoutbtn");
+        
+
+        logout_btn.addEventListener("click" ,() => {
+            loader.style.display = "flex";
+            signOut(auth).then(() => {
+                
+               
+                setTimeout(() => {
+                  window.location.href = "login.html";
+                },6000)
+                
+            })
+            .catch((error) => {
+                alert(`Sign out error ${error.message}`);
+            })
+        });
+
+
+
+async function storeUserInput(event) {
+    event.preventDefault();
+    const textarea = document.getElementById("requestDetails");
+    const errorDiv = document.getElementById("error");
+    errorDiv.textContent = ""; // Clear previous errors
+
+    const message = textarea.value.trim();
+    if (message === "") {
+        errorDiv.textContent = "Request cannot be empty.";
+        return;
+    }
+
+    try {
+        const docRef = await addDoc(collection(database, "Requests"), {
+            message: message,
+            timestamp: new Date()
+        });
+        alert("Input stored with ID: " + docRef.id);
+        textarea.value = "";
+        console.log("Message submitted");
+        console.log("Reloading page...");
+        window.location.reload();
+        console.clear();
+        console.log("PAGE RELOADED");
+        
+    } catch (error) {
+        console.error("Error adding document: ", error);
+        errorDiv.textContent = "Error storing input";
+    }
+}
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("requestForm").addEventListener("submit", storeUserInput);
+});
+
+
+
+const colRef = collection(database, "Requests");
+
+
+    console.log("Fetching Data....");
+    getDocs(colRef).then((snapshot) => {
+        const reqTable = document.getElementById("reqbody");
+        
+        snapshot.docs.forEach((doc) => {
+            const data = doc.data();
+            const timestamp = data.timestamp ? new Date(data.timestamp.seconds * 1000).toLocaleDateString() : "No Timestamp";
+
+            
+            const row = `<tr>
+                            <td id="reqMessage"> Request: ${data.message || "No Request"}</td>
+                            <td id="reqDate"> Date: ${timestamp || "No Date"}</td>
+                        </tr>`;
+            reqTable.innerHTML += row;
+            console.log("Data fetch from firestore/firebase");
+        });
+        
+    });
+    window.addEventListener("pageshow", function (event) {
+    
+    if (event.persisted) {
+        window.location.reload(); 
+    }
+});
+
+</script>
+</body>
+</html>
